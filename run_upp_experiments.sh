@@ -34,7 +34,7 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM
 
-for i in {1..1}; do
+for i in {1..22}; do
     if [ "$MODE" = "usps" ]; then
         OUTPUT_NAME="Q${i}-usps"
         SCRIPT_NAME="single_run_usps.py"
