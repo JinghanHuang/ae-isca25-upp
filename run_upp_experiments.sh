@@ -76,3 +76,7 @@ for i in {1..22}; do
     POWER_PID=""
     PCM_PCIE_PID=""
 done
+
+if [ "$MODE" = "baseline" ]; then
+    spark-submit --name "ideal_filter"  --master local[4] --conf "spark.driver.memory=200g" "calc_ideal_filter_ratio.py"
+fi

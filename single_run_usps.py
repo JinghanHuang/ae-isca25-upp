@@ -5,7 +5,6 @@ from load import load_tables, drop_tables
 
 import argparse
 import time
-import numpy as np
 import subprocess
 import logging
 import json
@@ -112,26 +111,27 @@ for i in q_list:
         logger.info(f"Copying Table {table} takes {copying_time} seconds.")
         with open(usps_log, 'a') as f:
             f.write(f"Copying Table {table} takes {copying_time} seconds.\n")
+
+        # ---------------- Calc filtered ratio ----------------
+        src_files = glob.glob(os.path.join(args.chunk_dir, table, "*.tbl"))
+        dst_files = glob.glob(os.path.join(table_dir, "*.tbl"))
+        
+        original_size = get_total_size(src_files)
+        filtered_size = get_total_size(dst_files)
+
+        if original_size > 0:
+            size_ratio = filtered_size / original_size
+        else:
+            size_ratio = 0
+
+        logger.info(f"Table {table} filtered data size ratio: {size_ratio:.2%}")
+        with open(usps_log, 'a') as f:
+            f.write(f"Table {table} filtered data size ratio: {size_ratio:.2%}\n")
+
     total_copying_time = time.time() - total_copy_start
     logger.info(f"Total Copying Table takes {total_copying_time} seconds.")
     with open(usps_log, 'a') as f:
         f.write(f"Total Copying Table takes {total_copying_time} seconds.\n")
-
-    # ---------------- Calc filtered ratio ----------------
-    src_files = glob.glob(os.path.join(args.chunk_dir, table, "*.tbl"))
-    dst_files = glob.glob(os.path.join(table_dir, "*.tbl"))
-    
-    original_size = get_total_size(src_files)
-    filtered_size = get_total_size(dst_files)
-
-    if original_size > 0:
-        size_ratio = filtered_size / original_size
-    else:
-        size_ratio = 0
-
-    logger.info(f"Table {table} filtered data size ratio: {size_ratio:.2%}")
-    with open(usps_log, 'a') as f:
-        f.write(f"Table {table} filtered data size ratio: {size_ratio:.2%}\n")
 
     # ---------------- Loading Tables ----------------
     sql_start_time = time.time()
