@@ -1,19 +1,38 @@
-# ae-isca25-upp
+# Artifact Evaluation for "UPP: Universal Predicate Pushdown to Smart Storage", ISCA 2025.
 
-### Running experiments for figure 7
+In this artifact, we provide guidelines for reproducing the key experimental results presented in the paper. The experiments detailed in §8 fall into three main categories:
+• Performance and energy comparison: evaluating the performance (Fig. 6) and energy consumption (Fig. 7) of the baseline analytical database (CPU) versus the UPP-enabled
+database (UPP). Filter ratio and CPU utilization are also presented in Fig. 6 and Fig. 7, respectively
+• Impact of ISP capabilities: investigating how varying ISP capabilities influence the potential performance improvements of UPP (Fig. 8a)
+• Impact of hash length: measuring the impact of different hash lengths on ISP processing performance (Fig. 8b)
+
+<p align="center">
+  <img src="diagram/upp_architecture.png" width="100%">
+</p>
+
+### Running experiments for Figure 6 and Figure 7
+First, follow the instructions below to run the experiments. The output files will be saved in the ```output_results``` directory:
+
 ```bash
 chmod +x run_upp_experiments.sh
 ```
 Then run experiments. 
 
-For usps:
+For upp:
 ```bash
-./run_upp_experiments.sh  usps
+./run_upp_experiments.sh  upp
 ```
 For baseline:
 ```bash
 ./run_upp_experiments.sh  baseline
 ```
+
+### Process results
+Afterwards, use ```process_results.sh``` to process the output files into readable formats: ```figure6_data.txt```, ```figure7_data.txt```, and ```figure8_data.txt```.
+```bash
+bash process_results.sh
+```
+
 ### Generating Hash
 Use `hash.py` to generate hash for data, query, and the percentiles used to generate the hash. 
 
