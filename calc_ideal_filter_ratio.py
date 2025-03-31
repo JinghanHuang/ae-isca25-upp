@@ -49,6 +49,14 @@ for table in ["lineitem", "orders", "partsupp"]:
     files = glob.glob(os.path.join(chunk_dir, table, "*.tbl"))
     original_sizes[table] = get_total_size(files)
 
+def cleanup_files(file_list):
+    for f in file_list:
+        try:
+            os.remove(f)
+            logger.info(f"Deleted file: {f}")
+        except OSError as e:
+            logger.error(f"Error deleting file {f}: {e}")
+
 
 def run_query(query_name, table, query_str, output_path, num_partitions, ratio_log_file):
     logger.info(f"Starting {query_name} on {table}")
@@ -75,6 +83,7 @@ def run_query(query_name, table, query_str, output_path, num_partitions, ratio_l
                 f"original size = {original_size} bytes, ratio = {ratio:.2%}\n")
     
     logger.info(f"Finished {query_name} on {table} with ratio = {ratio:.2%}")
+    cleanup_files(filtered_files)
 
 
 # Query 1

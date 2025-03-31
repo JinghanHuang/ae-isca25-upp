@@ -18,20 +18,25 @@ chmod +x run_upp_experiments.sh
 ```
 Then run experiments. 
 
-For upp:
 ```bash
-./run_upp_experiments.sh  upp
+./run_upp_experiments.sh
 ```
-For baseline:
-```bash
-./run_upp_experiments.sh  baseline
-```
+This will run 22 TPC-H queries with baseline and UPP.
 
 ### Process results
-Afterwards, use ```process_results.sh``` to process the output files into readable formats: ```figure6_data.txt```, ```figure7_data.txt```, and ```figure8_data.txt```.
+Afterwards, use ```process_results.sh``` to process the output files into readable formats: ```figure6_data.txt```, ```figure7_data.txt```, ```figure8a_data.txt```, and ```figure8b_data.txt```.
 ```bash
 bash process_results.sh
 ```
+Before running the scripts to generate output files, make sure the following input files and directories are present: ```runningtime_baseline.txt```, ```runningtime_usps.txt```, ```filtered_ratio_log.txt```, ```output_results/ (directory)```, and ```fig8/ (directory)```.    
+```process_results.py```: Generates `.txt` files containing results for **Figure 6** and **Figure 7**.  
+```process_results_fig8.py```: Generates `.txt` files containing results for **Figure 8(a)** and **Figure 8(b)**.   
+You can run the Python scripts individually using:   
+```bash
+python process_results.py
+python process_results_fig8.py
+```
+
 
 ### Generating Hash
 Use `hash.py` to generate hash for data, query, and the percentiles used to generate the hash. 

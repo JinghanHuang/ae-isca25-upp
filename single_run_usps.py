@@ -53,11 +53,16 @@ argParser.add_argument("--queries-dir", default="/home/usps/chuxuanhu/queries_ne
                        help="Path to the SQL query files.")
 argParser.add_argument("--results-dir", default="/home/usps/chuxuanhu/100gb-new",
                        help="Path to store final Spark SQL results.")
+argParser.add_argument("--log-file", default="runningtime_baseline.txt",
+                       help="Path to the log file.")
 args = argParser.parse_args()
 
 idx = args.index
 cores = args.cores
-usps_log = 'runningtime_usps.txt'
+
+usps_log = args.log_file
+if not os.path.exists(os.path.dirname(usps_log)):
+    os.makedirs(os.path.dirname(usps_log))
 
 # Drop caches
 subprocess.call('sudo sysctl vm.drop_caches=3', shell=True)
