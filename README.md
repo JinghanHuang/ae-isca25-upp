@@ -10,10 +10,12 @@ database (UPP). Filter ratio and CPU utilization are also presented in Fig. 6 an
   <img src="diagram/upp_architecture.png" width="100%">
 </p>
 
-### Running experiments for Figure 6 and Figure 7
+### Running experiments for Figure 6, Figure 7, and Figure 8
 First, follow the instructions below to run the experiments. The output files will be saved in the ```output_results``` directory:
 
 ```bash
+chmod +x run_upp_experiments_fig7.sh
+chmod +x run_upp_experiments_fig8.sh
 chmod +x run_upp_experiments.sh
 ```
 Then run experiments. 
@@ -21,7 +23,7 @@ Then run experiments.
 ```bash
 ./run_upp_experiments.sh
 ```
-This will run 22 TPC-H queries with baseline and UPP.
+This will run experiments for figure6, figure 7, and figure 8.
 
 ### Process results
 Afterwards, use ```process_results.sh``` to process the output files into readable formats: ```figure6_data.txt```, ```figure7_data.txt```, ```figure8a_data.txt```, and ```figure8b_data.txt```.
