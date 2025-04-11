@@ -11,7 +11,7 @@ SPARK_DRIVER_MEM="200g"     # memory for Spark driver, e.g. 200g
 
 # Python scripts (point these to your updated code)
 SCRIPT_BASELINE="./single_run_sql.py"
-SCRIPT_USPS="./single_run_sql_usps.py"
+SCRIPT_USPS="./single_run_usps.py"
 
 # Directory arguments for the Python scripts:
 TMPFS_DIR_BASELINE="/tmpfs_test/100gb/baseline"
