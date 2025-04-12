@@ -53,7 +53,7 @@ argParser.add_argument("--queries-dir", default="/home/usps/chuxuanhu/queries_ne
                        help="Path to the SQL query files.")
 argParser.add_argument("--results-dir", default="/home/usps/chuxuanhu/100gb-new",
                        help="Path to store final Spark SQL results.")
-argParser.add_argument("--log-file", default="runningtime_baseline.txt",
+argParser.add_argument("--log-file", default="./runningtime_usps.txt",
                        help="Path to the log file.")
 args = argParser.parse_args()
 
