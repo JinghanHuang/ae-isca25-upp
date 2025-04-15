@@ -23,7 +23,8 @@ QUERIES_DIR="/mnt/ssd/chuxuan/rebuttal/queries"
 RESULTS_DIR="./results"
 
 # Output path for logs (CPU, IO, power, pcie):
-OUTPUT_PATH="./power_results/core4/"
+OUTPUT_PATH="./output_results/"
+mkdir -p "${OUTPUT_PATH}"
 
 # measure_power script
 POWER_SCRIPT="/home/usps/smartssd/USPS-SmartSSD-20231117/isp_kernel/tool/measure_power.sh"
