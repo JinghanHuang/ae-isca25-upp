@@ -97,6 +97,8 @@ run_experiment() {
 
   # 3) Wait until Spark job finishes
   while kill -0 $BENCHMARK_PID 2> /dev/null; do
+    sudo cat /sys/class/powercap/intel-rapl:0/energy_uj >> "${OUTPUT_PATH}${output_name}_cpu_0_power.txt"
+    sudo cat /sys/class/powercap/intel-rapl:1/energy_uj >> "${OUTPUT_PATH}${output_name}_cpu_1_power.txt"
     sleep 1
   done
 

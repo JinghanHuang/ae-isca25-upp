@@ -54,6 +54,8 @@ run_experiment() {
     exit 1
   fi
 
+  mkdir -p "./fig8"
+
   local output_name="Q${query_id}-${mode}-${hash_config}-${spark_cores}cores"
 
   echo "====================================================================="
@@ -140,10 +142,16 @@ for hash_config in "${HASH_CONFIG_LIST[@]}"; do
     exit 1
   fi
 
-  for spark_cores in "${CORES_LIST[@]}"; do
+  if [ "$hash_config" = "256" ]; then
+    for spark_cores in "${CORES_LIST[@]}"; do
+      run_experiment "$QUERY_ID" "baseline" "$SCRIPT_BASELINE" "$spark_cores" "$SPARK_DRIVER_MEM" "$CHUNK_DIR_THIS" "$JSON_DIR_THIS" "$hash_config"
+      run_experiment "$QUERY_ID" "usps" "$SCRIPT_USPS" "$spark_cores" "$SPARK_DRIVER_MEM" "$CHUNK_DIR_THIS" "$JSON_DIR_THIS" "$hash_config"
+    done
+  else
+    spark_cores=4
     run_experiment "$QUERY_ID" "baseline" "$SCRIPT_BASELINE" "$spark_cores" "$SPARK_DRIVER_MEM" "$CHUNK_DIR_THIS" "$JSON_DIR_THIS" "$hash_config"
     run_experiment "$QUERY_ID" "usps" "$SCRIPT_USPS" "$spark_cores" "$SPARK_DRIVER_MEM" "$CHUNK_DIR_THIS" "$JSON_DIR_THIS" "$hash_config"
-  done
+  fi
 done
 
 echo "[INFO] All experiments for query ${QUERY_ID} completed."

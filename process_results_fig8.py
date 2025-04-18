@@ -129,30 +129,39 @@ def parse_generate_fig8b():
     hash_lengths = [64, 128, 256, "ideal"]
     base_total_latency_list = []
     upp_total_latency_list = []
-    baseline_ratios_list =[]
+    baseline_ratios_list = []
     upp_ratios_list = []
+
     for hash_length in hash_lengths:
         base_path = f"fig8/runningtime_baseline_4cores_{hash_length}.txt"
         upp_path = f"fig8/runningtime_usps_4cores_{hash_length}.txt"
 
-        # parse CPU latency
-        base_total_latency = parse_latencies(base_path)
+        base_total_latency = parse_latencies(base_path) if os.path.exists(base_path) else None
         base_total_latency_list.append(base_total_latency)
 
-        # parse UPP latency
-        upp_total_latency = parse_latencies(upp_path)
-        upp_total_latency_list.append(upp_total_latency)
+        if os.path.exists(upp_path):
+            upp_total_latency = parse_latencies(upp_path)
+            upp_total_latency_list.append(upp_total_latency)
 
-        # calculate UPP filter ratio
-        upp_table_ratios = parse_upp_filtered_ratios(upp_path)
-        upp_ratios = calculate_filtered_ratio(upp_table_ratios)
-        upp_ratios_list.append(upp_ratios[0])
+            upp_table_ratios = parse_upp_filtered_ratios(upp_path)
+            upp_ratios = calculate_filtered_ratio(upp_table_ratios)
+            upp_ratios_list.append(upp_ratios[0] if upp_ratios else None)
+        else:
+            upp_total_latency_list.append(None)
+            upp_table_ratios = []
+            upp_ratios_list.append(None)
 
-        # calculate CPU filter ratio
-        baseline_ratios = parse_baseline_filtered_ratios(filter_log_path, upp_table_ratios)
-        baseline_ratios_list.append(baseline_ratios[0])
+        if upp_table_ratios and os.path.exists(filter_log_path):
+            baseline_ratios = parse_baseline_filtered_ratios(filter_log_path, upp_table_ratios)
+            baseline_ratios_list.append(baseline_ratios[0] if baseline_ratios else None)
+        else:
+            baseline_ratios_list.append(None)
 
-    save_combined_latency_table('figure8b_data.txt', base_total_latency_list, upp_total_latency_list, baseline_ratios_list, upp_ratios_list)
+    save_combined_latency_table('figure8b_data.txt',
+                                base_total_latency_list,
+                                upp_total_latency_list,
+                                baseline_ratios_list,
+                                upp_ratios_list)
 
 def main():
     parse_generate_fig8a()
